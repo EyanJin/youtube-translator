@@ -1,0 +1,42 @@
+# Configuration (contains API keys)
+config.yaml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Output files
+yt_output/
+output/
+*.partial.json
+
+# Generated audio/video
+*_dubbed.wav
+*_dubbed.mp3
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# Binaries (users should install these themselves)
+yt-dlp.exe
+ffmpeg.exe
+
+# Local integration files
+# SKILL.md is tracked (public skill definition)

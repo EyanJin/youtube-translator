@@ -1,0 +1,85 @@
+# YouTube 视频翻译工具配置文件
+# 复制此文件为 config.yaml 并填入你的 API 密钥
+
+# 网络代理（如果你使用 Clash/V2Ray 等代理工具，填入你的代理地址）
+# 不需要代理的用户留空即可
+proxy:
+  http: ""    # e.g. "http://127.0.0.1:7890"
+  https: ""   # e.g. "http://127.0.0.1:7890"
+
+# 语音识别（Whisper）配置
+# 支持 OpenAI / Groq / 任何 OpenAI 兼容接口
+whisper:
+  # Groq（免费，推荐）: https://api.groq.com/openai/v1
+  # OpenAI: https://api.openai.com/v1
+  base_url: "https://api.groq.com/openai/v1"
+  api_key: "your-whisper-api-key"
+  model: "whisper-large-v3"
+
+# 翻译 LLM 配置（OpenAI 兼容接口）
+translate:
+  base_url: "https://api.openai.com/v1"
+  api_key: "your-translate-api-key"
+  # 推荐模型（按性价比排序）：
+  #   DeepSeek-V3: 中文质量好，极便宜
+  #   Qwen2.5-72B: 中文母语级
+  #   GPT-4o-mini: 稳定可靠
+  #   GLM-4-Flash: 智谱平台免费
+  model: "deepseek-chat"
+
+# 字幕重组配置（对模型能力要求最高）
+# 如果不配置 base_url 和 api_key，自动使用 translate 段的配置
+restructure:
+  # 推荐：gpt-4o（指令遵循严格）、claude-sonnet-4-6（最新 Claude）
+  model: "gpt-4o"
+  # 每条字幕最大英文单词数（默认 15）
+  # 快语速视频（TED、辩论）可调高到 20
+  max_words_per_entry: 15
+
+# 术语表（可选）
+# 专有名词翻译对照，会自动注入到翻译和重组的 prompt 中
+# 确保同一术语在全片中翻译一致
+glossary:
+  terms:
+    # 添加你的视频中的专有名词，例如:
+    # CASEL: "美国学术、社会和情感学习联盟"
+    # UNESCO: "联合国教科文组织"
+    # LLM: "大语言模型"
+
+# Edge TTS 中文配音配置
+tts:
+  # TTS 引擎: "edge" (默认，免费) 或 "cosyvoice" (声音克隆，需要 API)
+  engine: "edge"
+  # 可选音色：
+  #   zh-CN-XiaoxiaoNeural  - 女声，温柔（默认）
+  #   zh-CN-YunxiNeural     - 男声，年轻
+  #   zh-CN-YunjianNeural   - 男声，沉稳
+  #   zh-CN-XiaoyiNeural    - 女声，活泼
+  voice: "zh-CN-XiaoxiaoNeural"
+  # 语速调整: "+0%" 正常, "+10%" 加快, "-10%" 减慢
+  rate: "+0%"
+  # 音量调整
+  volume: "+0%"
+  # 是否保留原始音频（背景音乐、环境音）混入配音
+  keep_original_audio: true
+  # 原始音频混入音量 (0.0-1.0)，仅在 keep_original_audio=true 时生效
+  original_audio_volume: 0.3
+  # TTS 最大加速倍率（默认 1.8，快语速视频可调高到 2.0）
+  max_speed_ratio: 1.8
+  # CosyVoice 云端 API 配置（仅 engine=cosyvoice 时需要）
+  cosyvoice:
+    # 服务商: "siliconflow" 或 "fish"
+    provider: "siliconflow"
+    api_key: ""
+    # API 地址（留空则自动使用服务商默认地址）
+    api_url: ""
+    # SiliconFlow 模型 ID
+    model: "FunAudioLLM/CosyVoice2-0.5B"
+
+# 输出配置
+output:
+  # 输出目录（留空则在视频同目录下创建）
+  directory: ""
+  # 字幕格式: srt, ass
+  subtitle_format: "srt"
+  # 默认烧录硬字幕，使用 CLI 参数 --soft-sub 可切换为软字幕
